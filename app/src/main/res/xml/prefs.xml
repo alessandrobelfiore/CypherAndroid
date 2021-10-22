@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Audio" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="audio_in"
+            android:summary="Abilita la registrazione dell'audio dal microfono incorporato."
+            android:title="Attiva microfono" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="audio_out"
+            android:summary="Abilita la riproduzione dell'audio dall'altoparlante incorporato."
+            android:title="Attiva altoparlante" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Sensor" >
+        <Preference
+            android:defaultValue="false"
+            android:key="set_sensor"
+            android:summary="Allows you to reset the gyroscope sensor calibration."
+            android:title="Reset sensor"
+            android:onClick="">
+
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
