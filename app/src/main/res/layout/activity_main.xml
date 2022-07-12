@@ -1,73 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_menu_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".MainActivity">
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/new_game_single"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:text="SINGLEPLAYER"
-        android:visibility="visible"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/singleplayer"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/new_game_multi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tableLayout"
+        tools:visibility="gone" />
 
     <Button
         android:id="@+id/prefs"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="OPTIONS"
-        android:visibility="visible"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/options"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/history"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_game_multi" />
+        app:layout_constraintTop_toBottomOf="@+id/new_game_multi"
+        tools:visibility="gone" />
 
     <Button
         android:id="@+id/new_game_multi"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="MULTIPLAYER "
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/multiplayer"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/prefs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_game_single" />
+        app:layout_constraintTop_toBottomOf="@+id/new_game_single"
+        tools:visibility="gone" />
 
     <Button
         android:id="@+id/history"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="MATCH HISTORY"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prefs" />
-
-    <Button
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="TEST"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/match_history"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prefs"
         tools:visibility="gone" />
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/singleplayer_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTintMode="src_in"
+        android:contentDescription="@string/singleplayer"
+        app:layout_constrainedHeight="true"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@id/multiplayer_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="130dp"
+        app:layout_constraintHeight_min="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tableLayout"
+        app:layout_constraintWidth_max="400dp"
+        app:layout_constraintWidth_min="200dp"
+        app:srcCompat="@drawable/button_color2" />
+
+    <TextView
+        android:id="@+id/singleplayer_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto_slab_bold"
+        android:letterSpacing="0.2"
+        android:text="@string/singleplayer"
+        app:layout_constraintBottom_toBottomOf="@id/singleplayer_image"
+        app:layout_constraintEnd_toEndOf="@id/singleplayer_image"
+        app:layout_constraintStart_toStartOf="@id/singleplayer_image"
+        app:layout_constraintTop_toTopOf="@id/singleplayer_image" />
+
+    <ImageView
+        android:id="@+id/multiplayer_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/multiplayer"
+        app:layout_constrainedHeight="true"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@id/options_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="130dp"
+        app:layout_constraintHeight_min="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/singleplayer_image"
+        app:layout_constraintWidth_max="400dp"
+        app:layout_constraintWidth_min="200dp"
+        app:srcCompat="@drawable/button_color2" />
+
+    <TextView
+        android:id="@+id/multiplayer_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto_slab_bold"
+        android:includeFontPadding="false"
+        android:letterSpacing="0.2"
+        android:text="@string/multiplayer"
+        app:layout_constraintBottom_toBottomOf="@id/multiplayer_image"
+        app:layout_constraintEnd_toEndOf="@id/multiplayer_image"
+        app:layout_constraintStart_toStartOf="@id/multiplayer_image"
+        app:layout_constraintTop_toTopOf="@id/multiplayer_image" />
+
+    <ImageView
+        android:id="@+id/options_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/options"
+        app:layout_constrainedHeight="true"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="100dp"
+        app:layout_constraintHeight_min="80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/multiplayer_image"
+        app:layout_constraintWidth_max="400dp"
+        app:layout_constraintWidth_min="100dp"
+        app:srcCompat="@drawable/button_color2" />
+
+    <TextView
+        android:id="@+id/options_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto_slab_bold"
+        android:includeFontPadding="false"
+        android:letterSpacing="0.2"
+        android:text="@string/options"
+        app:layout_constraintBottom_toBottomOf="@id/options_image"
+        app:layout_constraintEnd_toEndOf="@id/options_image"
+        app:layout_constraintStart_toStartOf="@id/options_image"
+        app:layout_constraintTop_toTopOf="@id/options_image" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

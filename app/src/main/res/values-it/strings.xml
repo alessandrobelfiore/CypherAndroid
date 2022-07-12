@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">Cypher</string>
+    <string name="start">Inizia</string>
+    <string name="wait">UN MOMENTO..</string>
+    <string name="time_format">00:00.000</string>
+    <string name="host">HOST</string>
+    <string name="client">CLIENT</string>
+    <string name="looking_for_clients">Cerco altri giocatori..</string>
+    <string name="victory">VITTORIA!</string>
+    <string name="defeat">SCONFITTA!</string>
+    <string name="device_disconnected">Giocatore disconnesso</string>
+    <string name="click_hold">Clicca e mantieni il dispositivo in una posizione comoda</string>
+    <string name="menu">MENU</string>
+    <string name="singleplayer">GIOCATORE SINGOLO</string>
+    <string name="options">OPZIONI</string>
+    <string name="multiplayer">MULTIGIOCATORE</string>
+    <string name="match_history">CRONOLOGIA PARTITE</string>
+    <string name="opponent">AVVERSARIO</string>
+    <string name="difficulty">DIFFICOLTÀ</string>
+    <string name="time">TEMPO</string>
+    <string name="result">RISULTATO</string>
+    <string name="list_peers">TROVA GIOCATORI</string>
+    <string name="ready">PRONTO</string>
+    <string name="waiting">…</string>
+    <string name="activate_sound">Suoni di gioco</string>
+    <string name="activate_sound_sum">Abilita gli effetti sonori in gioco.</string>
+    <string name="activate_music">Musica</string>
+    <string name="activate_music_sum">Abilita la riproduzione della musica.</string>
+    <string name="set_sensor">Imposta sensore</string>
+    <string name="set_sensor_sum">Reimposta la calibrazione del giroscopio</string>
+
+    <string name="placeholder_1">OPPPONENT UN</string>
+    <string name="placeholder_2">5</string>
+    <string name="placeholder_3">14:00:345</string>
+    <string name="placeholder_4">LOSE</string>
+
+    <string name="wifi_on">WiFi Attivo</string>
+    <string name="wifi_off">WiFi Spento</string>
+    <string name="set_synchrony">Attiva la sincronia Multigiocatore</string>
+    <string name="set_synchrony_sum">Nelle partite multigiocatore, termina la mia partita appena uno dei due giocatori vince</string>
+    <string name="turn_wifi_on">Attiva il WiFi per trovare altri giocatori!</string>
+    <string name="connection_failed">Connessione fallita</string>
+    <string name="connected_to">Connesso a</string>
+    <string name="oppo_ready">Il tuo avversario è pronto!</string>
+    <string name="no_devices">Nessun giocatore vicino..</string>
+    <string name="connection_established">Connessione stabilita!</string>
+    <string name="calibration_end">Calibrazione completa</string>
+    <string name="sensor_title">Sensore</string>
+
+    <string name="easy">FACILE</string>
+    <string name="normal">NORMALE</string>
+    <string name="hard">DIFFICILE</string>
+    <string name="covers_deactivated">DISATTIVATE</string>
+    <string name="covers_some">POCHE</string>
+    <string name="covers_a_lot">MOLTE</string>
+    <string name="covers">COVERS</string>
+
+    <string name="training">Allenamento</string>
+    <string name="play_again">RIGIOCA</string>
+
+    <string name="set_animation_time_sum">Imposta la durata dell\'animazione di rotazione.</string>
+    <string name="set_animation_time">Durata animazioni</string>
+    <string name="rematch">RIVINCITA</string>
+    <string name="graphics">Grafica</string>
+    <string name="gameplay">Gameplay</string>
+
+    <string-array name="animation_time_values">
+        <item>0</item>
+        <item>133</item>
+        <item>266</item>
+        <item>399</item>
+    </string-array>
+
+    <string-array name="animation_time_entries">
+        <item>Disattivate</item>
+        <item>Veloci</item>
+        <item>Normali</item>
+        <item>Lente</item>
+    </string-array>
+
+</resources>

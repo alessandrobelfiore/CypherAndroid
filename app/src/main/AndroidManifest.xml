@@ -20,15 +20,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <receiver android:name=".Receiver" />
-        <activity android:name=".SelectModeTab" />
+        <activity android:name=".SelectDifficultyTab" />
         <activity android:name=".MatchHistory" />
-        <!--
-        <activity android:name=".GameTab" />
-        <activity android:name=".WifiConnect" />
-        -->
         <activity android:name=".TestPrefs" />
         <activity android:name=".SetSensor" />
-        <activity android:name=".GameActivity" />
+        <activity android:name=".GameActivity" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +34,9 @@
         </activity>
 
         <service android:name=".MessengerService" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

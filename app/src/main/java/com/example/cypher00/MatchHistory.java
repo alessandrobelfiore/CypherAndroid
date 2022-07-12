@@ -1,69 +1,62 @@
 package com.example.cypher00;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ListView;
 
-import java.io.File;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import static com.example.cypher00.GameFragment.MATCHES;
+import java.util.List;
+import java.util.Objects;
 
+import static com.example.cypher00.KeysUtils.GET_MATCHES;
+import static com.example.cypher00.KeysUtils.MESSAGE_CODE;
+
+/**
+ * Gets and shows the match history from the database
+ */
 public class MatchHistory extends AppCompatActivity {
 
-    private ListView listView;
-    private String[] oppoNames;
-    private SQLiteDatabase mDatabase;
-    private SQLiteAdapter mySQLiteAdapter;
-//    private String DB_PATH =  getApplicationInfo().dataDir+"/databases/";
-//    String path = this.getApplicationContext().getFilesDir().getAbsolutePath().replace("files", "databases") + File.separator;
+//    private ListView listView;
+    private List<Match> matches;
+    private RecyclerView recyclerView;
+
+//    public static final byte GET_MATCHES = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_history);
 
-//        oppoNames = new String[10];
-//        for (int i = 0; i < 10; i++) {
-//            oppoNames[i] = "BEPPE";
-//        }
+        Intent serviceIntent = new Intent(getApplicationContext(), MessengerService.class);
+        serviceIntent.putExtra(MESSAGE_CODE, GET_MATCHES);
+        Objects.requireNonNull(getApplicationContext()).startService(serviceIntent);
+        recyclerView = findViewById(R.id.match_list_view);
 
-//        String[] columns = new String[]{"opponent", "difficulty", "time", "winner"};
-//        mDatabase =
-//                SQLiteDatabase.openOrCreateDatabase( "mDatabase.db",null);
-//        Cursor cur = mDatabase.query(MATCHES,
-//                                    null,
-//                                    null,
-//                                    null,
-//                                    null, null, null);
+        MessengerService.setGetMatchesListener(new MessengerService.onGetMatchesListener() {
+            @Override
+            public void onGetMatches(List<Match> list) {
+                matches = list;
+                Log.d("REC", String.valueOf(matches.size()));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MyAdapter adapter = new MyAdapter(matches);
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+            }
+        });
+        // debug
 
-
-
-        /*
-         *  Open the same SQLite database
-         *  and read all it's content.
-         */
-        mySQLiteAdapter = new SQLiteAdapter(this);
-        mySQLiteAdapter.openToRead();
-
-        Cursor cursor = mySQLiteAdapter.queueAll();
-
-//        String[] from = new String[]{SQLiteAdapter.KEY_CONTENT};
-//        int[] to = new int[]{R.id.text};
-
-//        SimpleCursorAdapter cursorAdapter =
-//                new SimpleCursorAdapter(this, R.layout.row, cursor, from, to);
-
-        MyCursorAdapter adp = new MyCursorAdapter(this, cursor);
-        listView = findViewById(R.id.match_list_view);
-        listView.setAdapter(adp);
-        mySQLiteAdapter.close();
-
-//        MyCursorAdapter adp = new MyCursorAdapter(this, cur);
-//        listView.setAdapter(adp);
-
-        cursor.close();
+//        db = AppDatabase.getInstance(this);
+//        db.matchDao().deleteAll();
+//        matches = db.matchDao().getAll();
     }
 }
 
