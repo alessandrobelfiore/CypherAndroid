@@ -103,9 +103,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (v.getId() == R.id.options_image) {
             switchActivity(OPTION_TAB, 0);
         }
-        else if (v.getId() == R.id.history) {
+        // database currently hidden TODO
+        /*else if (v.getId() == R.id.history) {
             switchActivity(MATCH_HISTORY_TAB, 0);
-        }
+        }*/
         else if (v instanceof PuzzlePiece) {
             grid.rotate(((PuzzlePiece) v).getI(), ((PuzzlePiece) v).getJ());
             gf.rotatePiece((PuzzlePiece) v);
