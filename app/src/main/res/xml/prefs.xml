@@ -1,28 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Audio" >
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="audio_in"
-            android:summary="Abilita la registrazione dell'audio dal microfono incorporato."
-            android:title="Attiva microfono" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="audio_out"
-            android:summary="Abilita la riproduzione dell'audio dall'altoparlante incorporato."
-            android:title="Attiva altoparlante" />
-    </PreferenceCategory>
+    <!--<PreferenceCategory android:title="Audio" >-->
+        <!--<CheckBoxPreference-->
+            <!--android:defaultValue="true"-->
+            <!--android:key="audio_out"-->
+            <!--android:summary="@string/activate_sound_sum"-->
+            <!--android:title="@string/activate_sound" />-->
+        <!--<CheckBoxPreference-->
+            <!--android:defaultValue="true"-->
+            <!--android:key="audio_out"-->
+            <!--android:summary="@string/activate_music_sum"-->
+            <!--android:title="@string/activate_music" />-->
+    <!--</PreferenceCategory>-->
 
-    <PreferenceCategory android:title="Sensor" >
+    <PreferenceCategory android:title="@string/sensor_title" >
         <Preference
             android:defaultValue="false"
             android:key="set_sensor"
-            android:summary="Allows you to reset the gyroscope sensor calibration."
-            android:title="Reset sensor"
+            android:summary="@string/set_sensor_sum"
+            android:title="@string/set_sensor"
             android:onClick="">
 
         </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/gameplay" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="set_synchrony"
+            android:summary="@string/set_synchrony_sum"
+            android:title="@string/set_synchrony">
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/graphics">
+        <ListPreference
+            android:key="set_animation_time"
+            android:summary="@string/set_animation_time_sum"
+            android:title="@string/set_animation_time"
+            android:entries="@array/animation_time_entries"
+            android:entryValues="@array/animation_time_values">
+        </ListPreference>
     </PreferenceCategory>
 
 </PreferenceScreen>

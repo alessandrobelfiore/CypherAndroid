@@ -8,17 +8,23 @@ import android.util.AttributeSet;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Chronometer extends android.support.v7.widget.AppCompatTextView {
+public class Chronometer extends androidx.appcompat.widget.AppCompatTextView {
 
-    private static final String FORMAT = "mm:ss.SSS";
+    public interface OnEnemyWinnerListener {
+        void onEnemyWinner();
+    }
+
+    public static final String FORMAT = "mm:ss.SSS";
     private static final long delay = 20;
 
     private boolean isRunning = false;
     private long offset;
+    private long enemyMatchTime = Long.MAX_VALUE;
+    private OnEnemyWinnerListener listener = null;
 
     public Chronometer(Context context) {
         super(context);
-        setText("00:00.000");
+        setText(context.getString(R.string.time_format));
     }
 
     public Chronometer(Context context, AttributeSet attrs) {
@@ -42,6 +48,9 @@ public class Chronometer extends android.support.v7.widget.AppCompatTextView {
                 @SuppressLint("SimpleDateFormat")
                 SimpleDateFormat sdf = new SimpleDateFormat(FORMAT);
                 setText(sdf.format(time));
+                if (enemyMatchTime < time) {
+                    if (listener != null) listener.onEnemyWinner();
+                }
                 if (isRunning) h.postDelayed(this, delay);
             }
         }, delay);
@@ -51,10 +60,26 @@ public class Chronometer extends android.support.v7.widget.AppCompatTextView {
         isRunning = false;
     }
 
+    /**
+     * @return the time spent since the start of the chronometer if it's running,
+     *          -1 if the chronometer is stopped
+     */
     public long getTime() {
         if (isRunning)
             return Calendar.getInstance().getTimeInMillis() - offset;
         else return -1;
+    }
+    //
+    public void setEnemyMatchTime(long enemyMatchTime) {
+        this.enemyMatchTime = enemyMatchTime;
+    }
+
+    public OnEnemyWinnerListener getOnEnemyWinnerListener() {
+        return listener;
+    }
+
+    public void setOnEnemyWinnerListener(OnEnemyWinnerListener listener) {
+        this.listener = listener;
     }
 
 }

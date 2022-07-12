@@ -1,34 +1,50 @@
 package com.example.cypher00;
 
-public class Piece {
-    // TODO CHANGE TO BYTE?
+class Piece {
     private int bitmask;
     private int N_MASK = 0b1000;
     private int E_MASK = 0b0100;
     private int S_MASK = 0b0010;
     private int W_MASK = 0b0001;
 
-    public Piece(int init) {
+    Piece(int init) {
         this.bitmask = init;
     }
 
-    public void rotate() {
+    /**
+     * Rotates logically the piece, updating its bitmask
+     */
+    void rotate() {
         // if the rightmost bit is set, we preserve it and put it in the first position
         this.bitmask = this.bitmask >> 1 | ((this.bitmask & W_MASK) << 3);
     }
 
-    public void rotate(int n) {
+    /**
+     * Rotates logically the piece n times, updating its bitmask
+     */
+    void rotate(int n) {
         // for (int i = 0; i < n; i++) rotate();
         n = n % 4;
         this.bitmask = (this.bitmask | ((this.bitmask & ~(~0b0 << n)) << 4)) >> n;
     }
 
-    public int getBitmask() {
+    int getBitmask() {
         return this.bitmask;
     }
 
-    // checks if a direction bit is set
-    public boolean has(Direction direction) {
+    byte getBitmaskAsByte() {
+        return (byte) this.bitmask;
+    }
+
+    //
+
+    /**
+     * Checks if a direction bit is set
+     * @param direction the direction given
+     * @return true if the given direction is set
+     *         false otherwise
+     */
+    boolean has(Direction direction) {
         switch (direction) {
             case NORTH:
                 return (bitmask & N_MASK) == N_MASK;
@@ -44,9 +60,9 @@ public class Piece {
 
     /**
      * Removes a direction stick from the bitmask
-     * @param direction
+     * @param direction the direction given
      */
-    public void remove(Direction direction) {
+    void remove(Direction direction) {
         switch (direction) {
             case NORTH:
                 this.bitmask = bitmask - N_MASK;

@@ -1,3 +1,79 @@
 <resources>
-    <string name="app_name">Cypher 0.0</string>
+    <string name="app_name">Cypher</string>
+    <string name="start">START</string>
+    <string name="wait">WAIT..</string>
+    <string name="time_format">00:00.000</string>
+    <string name="host">HOST</string>
+    <string name="client">CLIENT</string>
+    <string name="looking_for_clients">Looking for players...</string>
+    <string name="victory">VICTORY!</string>
+    <string name="defeat">DEFEAT!</string>
+    <string name="device_disconnected">Player disconnected</string>
+    <string name="click_hold">Click and hold the device in a comfortable position</string>
+    <string name="menu">MENU</string>
+    <string name="singleplayer">SINGLEPLAYER</string>
+    <string name="options">OPTIONS</string>
+    <string name="multiplayer">MULTIPLAYER</string>
+    <string name="match_history">MATCH HISTORY</string>
+    <string name="opponent">OPPONENT</string>
+    <string name="difficulty">DIFFICULTY</string>
+    <string name="time">TIME</string>
+    <string name="result">RESULT</string>
+    <string name="list_peers">FIND PLAYERS</string>
+    <string name="ready">READY</string>
+    <string name="waiting">…</string>
+    <string name="activate_sound">Sound effects</string>
+    <string name="activate_sound_sum">Activate in game sound effects.</string>
+    <string name="activate_music">Music</string>
+    <string name="activate_music_sum">Activate in game music</string>
+    <string name="set_sensor">Set sensor</string>
+    <string name="set_sensor_sum">Allows you to set a different gyroscope sensor calibration.</string>
+
+    <string name="placeholder_1">OPPPONENT UN</string>
+    <string name="placeholder_2">5</string>
+    <string name="placeholder_3">14:00:345</string>
+    <string name="placeholder_4">LOSE</string>
+
+    <string name="wifi_on">WiFi is ON</string>
+    <string name="wifi_off">WiFi is OFF</string>
+    <string name="set_synchrony">Activate Multiplayer Synchrony</string>
+    <string name="set_synchrony_sum">In multiplayer games, terminate the match as soon as one of the players wins</string>
+    <string name="turn_wifi_on">Turn ON wifi to find opponents!</string>
+    <string name="connection_failed">Connection failed</string>
+    <string name="connected_to">Connected to</string>
+    <string name="oppo_ready">Opponent ready to Play!</string>
+    <string name="no_devices">No players nearby...</string>
+    <string name="connection_established">Connection established!</string>
+    <string name="calibration_end">Calibration Successful</string>
+    <string name="sensor_title">Sensor</string>
+
+    <string name="easy">EASY</string>
+    <string name="normal">NORMAL</string>
+    <string name="hard">HARD</string>
+    <string name="covers_deactivated">DEACTIVATED</string>
+    <string name="covers_some">SOME</string>
+    <string name="covers_a_lot">A LOT</string>
+    <string name="covers">COVERS</string>
+
+    <string name="training">Training</string>
+    <string name="play_again">PLAY AGAIN</string>
+    <string name="set_animation_time_sum">Sets the animation duration for rotations.</string>
+    <string name="set_animation_time">Animation Time</string>
+    <string name="rematch">REMATCH</string>
+    <string name="graphics">Graphics</string>
+    <string name="gameplay">Gameplay</string>
+
+    <string-array name="animation_time_values">
+        <item>0</item>
+        <item>133</item>
+        <item>266</item>
+        <item>399</item>
+    </string-array>
+    
+    <string-array name="animation_time_entries">
+        <item>No animation</item>
+        <item>Fast</item>
+        <item>Medium</item>
+        <item>Slow</item>
+    </string-array>
 </resources>
