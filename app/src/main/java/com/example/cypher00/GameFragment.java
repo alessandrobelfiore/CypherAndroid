@@ -1,6 +1,7 @@
 package com.example.cypher00;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -11,10 +12,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,13 +31,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 import static android.content.Context.SENSOR_SERVICE;
@@ -51,6 +53,7 @@ import static com.example.cypher00.KeysUtils.DIFFICULTY_HARD;
 import static com.example.cypher00.KeysUtils.DIFFICULTY_MEDIUM;
 import static com.example.cypher00.KeysUtils.GRID_BYTES_KEY;
 import static com.example.cypher00.KeysUtils.INSERT_DB;
+import static com.example.cypher00.KeysUtils.LEVEL_ID_KEY;
 import static com.example.cypher00.KeysUtils.MESSAGE_CODE;
 import static com.example.cypher00.KeysUtils.MESSAGE_READ;
 import static com.example.cypher00.KeysUtils.MODE_KEY;
@@ -60,15 +63,17 @@ import static com.example.cypher00.KeysUtils.MY_MATCH_TIME;
 import static com.example.cypher00.KeysUtils.NOTIFY;
 import static com.example.cypher00.KeysUtils.OPPONENT_KEY;
 import static com.example.cypher00.KeysUtils.PITCH_KEY;
-import static com.example.cypher00.KeysUtils.PLAY_AGAIN;
 import static com.example.cypher00.KeysUtils.PLAY_AGAIN_KEY;
 import static com.example.cypher00.KeysUtils.READY;
 import static com.example.cypher00.KeysUtils.RESULT;
 import static com.example.cypher00.KeysUtils.ROLL_KEY;
-import static com.example.cypher00.KeysUtils.SINGLE_PLAYER;
+import static com.example.cypher00.KeysUtils.SINGLE_PLAYER_CAMPAIGN;
+import static com.example.cypher00.KeysUtils.SINGLE_PLAYER_TRAINING;
 import static com.example.cypher00.KeysUtils.SYNCHRONY_KEY;
 import static com.example.cypher00.KeysUtils.WINNER_KEY;
 import static com.example.cypher00.KeysUtils.WINNER_MATCH_TIME;
+
+import org.w3c.dom.Text;
 
 public class GameFragment extends Fragment implements View.OnClickListener, SensorEventListener {
 
@@ -90,8 +95,11 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
 
     // Primitives
     private int dimension;
+    private int rows;
+    private int columns;
     private int difficulty;
     private int mode;
+    private int levelId;
     private int nCovers;
     private float pitchAngle;
     private float rollAngle;
@@ -116,15 +124,17 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
         animTime = Long.parseLong(Objects.requireNonNull(pref.getString(ANIM_KEY, "133")));
         rollAngle = pref.getFloat(ROLL_KEY, 0f);
         pitchAngle = pref.getFloat(PITCH_KEY, 0f);
+        assert extras != null;
         difficulty = extras.getInt(DIFFICULTY_KEY, DIFFICULTY_EASY);
         int covers = extras.getInt(COVERS_KEY, COVERS_NO);
         Log.d("RESTART", "CREATION  " + covers);
         dimension = getDimensionFromDifficulty(difficulty);
+        rows = columns = dimension;
         nCovers = getNCoversFromCoverKey(covers);
         opponentName = extras.getString(OPPONENT_KEY);
         matchTime = enemyMatchTime = winnerMatchTime = -1;
 
-        sensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);
+        sensorManager = (SensorManager) Objects.requireNonNull(getActivity()).getSystemService(SENSOR_SERVICE);
         rvSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
         table = view.findViewById(R.id.table1);
@@ -144,10 +154,36 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
         if (savedInstanceState == null) {
             // checks if is in MULTI PLAYER MODE
             Log.d("RESTART", "FIRST GAME " + nCovers);
-            mode = extras.getInt(MODE_KEY, SINGLE_PLAYER);
-            if (mode == SINGLE_PLAYER) {
+            mode = extras.getInt(MODE_KEY, SINGLE_PLAYER_TRAINING);
+            if (mode == SINGLE_PLAYER_TRAINING) {
                 grid = new PieceGrid(dimension, nCovers, layout, coverSize, this);
                 grid.generateGrid();
+               /* int [][] tmp = PieceGrid.fromGridToBitArrays(grid);
+                Log.d("CREATING",  "table " +
+                        Arrays.deepToString(tmp).replace("], ", "},\n")
+                                .replace("[", "{")
+                                .replace("]", "}")
+                                .replace("}}", "}};"));*/
+            } else if (mode == SINGLE_PLAYER_CAMPAIGN) {
+                levelId = extras.getInt(LEVEL_ID_KEY, 0);
+                int[][] levelBitmask = Constants.levels[levelId];
+                rows = levelBitmask.length;
+                columns = levelBitmask[0].length;
+                coverSize =
+                        Math.min(displayMetrics.widthPixels - borderSize, displayMetrics.heightPixels - borderSize)
+                                / Math.max(rows, columns);
+                grid = new PieceGrid(rows, columns);
+                grid.generateGridFromBitmask(levelBitmask);
+
+                TextView hs = view.findViewById(R.id.highscore_text);
+                hs.setVisibility(View.VISIBLE);
+                TextView hsValue = view.findViewById(R.id.highscore_value);
+                hsValue.setVisibility(View.VISIBLE);
+                long hsTiming = pref.getLong("highscore" + levelId, 0);
+                Log.d("HIGHSCORE", "looking for key highscore" + levelId);
+                Log.d("HIGHSCORE", "creating lvl with hs " + hsTiming);
+                SimpleDateFormat sdf = new SimpleDateFormat(Chronometer.FORMAT);
+                hsValue.setText(sdf.format(hsTiming));
             } else if (mode == MULTI_PLAYER_CLIENT || mode == MULTI_PLAYER_HOST) {
                 byte[] bytes = extras.getByteArray(GRID_BYTES_KEY);
                 ArrayList<ArrayList<Piece>> pieces = new ArrayList<>();
@@ -158,10 +194,10 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
                         pieces.get(i).add(new Piece(bytes[i * dimension + j]));
                     }
                 }
-                this.grid = new PieceGrid(pieces, nCovers, layout, coverSize, this);
-//                Log.d("GRIDDIM", String.valueOf(this.grid.getDim()));
+                grid = new PieceGrid(pieces, nCovers, layout, coverSize, this);
             }
         } else {
+            // TODO update with row, columns
             dimension = savedInstanceState.getInt("GRID_DIM");
             int[] bits = savedInstanceState.getIntArray("GRID_BITS");
 //            Log.d("RESTART", "grid bits length " + bits.length);
@@ -177,16 +213,17 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
             for (int i = 0; i < dimension; i++) {
                 pieces.add(new ArrayList<Piece>());
                 for (int j = 0; j < dimension; j++) {
+                    assert bits != null;
                     pieces.get(i).add(new Piece(bits[i * dimension + j]));
                 }
             }
             this.grid = new PieceGrid(pieces, nCovers, layout, coverSize, this);
         }
-        for (int i = 0; i < dimension; i++) {
+        for (int i = 0; i < rows; i++) {
             TableRow row = new TableRow(getContext());
             table.addView(row);
             Resources res = getResources();
-            for (int j = 0; j < dimension; j++) {
+            for (int j = 0; j < columns; j++) {
                 PuzzlePiece piece = new PuzzlePiece(getContext());
                 piece.setCoordinates(i, j);
                 setImageFromBitmask(grid.getB(i, j), res, piece);
@@ -197,7 +234,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
             }
         }
         timer.start();
-        if (mode != SINGLE_PLAYER) {
+        if (mode == MULTI_PLAYER_HOST || mode == MULTI_PLAYER_CLIENT) {
             Socket socket = MessengerService.getSocket();
             if (rec == null) {
                 rec = new mReceiver(socket);
@@ -239,7 +276,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
         } else if (v instanceof Cover) {
             ((Cover) v).block();
         } else if(v.getId() == R.id.play_again) {
-            if (mode == SINGLE_PLAYER) {
+            if (mode == SINGLE_PLAYER_TRAINING || mode == SINGLE_PLAYER_CAMPAIGN) {
                 GameFragment gf = new GameFragment();
                 gf.setArguments(getArguments());
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, gf).commit();
@@ -367,14 +404,14 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
      */
     private void stopGame() {
         this.grid.removeCovers();
-        for (int i = 0; i < this.dimension; i++) {
+        for (int i = 0; i < this.rows; i++) {
             TableRow row = (TableRow) table.getChildAt(i);
-            for (int j = 0; j < this.dimension; j++)
+            for (int j = 0; j < this.columns; j++)
                 row.getChildAt(j).setOnClickListener(null);
         }
         matchTime = timer.getTime();
         timer.stop();
-        if (mode == SINGLE_PLAYER) {
+        if (mode == SINGLE_PLAYER_TRAINING || mode == SINGLE_PLAYER_CAMPAIGN) {
             winnerMatchTime = matchTime;
             victory();
             // first notify, enemy hasn't finished
@@ -449,7 +486,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
             case INSERT_DB:
                 serviceIntent.putExtra(WINNER_MATCH_TIME, winnerMatchTime);
                 serviceIntent.putExtra(DIFFICULTY_KEY, difficulty);
-                if (mode == SINGLE_PLAYER) {
+                if (mode == SINGLE_PLAYER_TRAINING) {
                     serviceIntent.putExtra(OPPONENT_KEY, getString(R.string.training));
                     serviceIntent.putExtra(WINNER_KEY, "WIN");
                 } else if (winnerMatchTime == matchTime) {
@@ -473,7 +510,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
      * Thread class used to delegate receiving messages to the handler
      */
     public class mReceiver extends Thread {
-        private Socket socket;
+        private final Socket socket;
         private InputStream inputStream;
 
         mReceiver(Socket sock) {
@@ -517,7 +554,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
      *      notify: sets onEnemyWinnerListener and, if the method is called, sends RESULT
      *      result: displays the result
      */
-    private Handler handler = new Handler(new Handler.Callback() {
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
@@ -598,8 +635,19 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
         victoryAlert.setVisibility(View.VISIBLE);
         victorySound = MediaPlayer.create(getContext(), R.raw.win);
         victorySound.start();
-        sendMessage(INSERT_DB);
-        if (mode != SINGLE_PLAYER) rec.stopThread();
+        //sendMessage(INSERT_DB);
+
+        if (mode == SINGLE_PLAYER_CAMPAIGN) {
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+            SharedPreferences.Editor editor = pref.edit();
+            long currentHs = pref.getLong("highscore" + levelId, 0);
+            // Update highscore
+            if (currentHs > winnerMatchTime) {
+                editor.putLong("highscore" + levelId, winnerMatchTime);
+                editor.apply();
+            }
+        }
+        if (mode == MULTI_PLAYER_CLIENT || mode == MULTI_PLAYER_HOST) rec.stopThread();
     }
 
     /**
@@ -608,7 +656,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
     private void defeat() {
         victoryAlert.setText(getContext().getString(R.string.defeat));
         sendMessage(INSERT_DB);
-        if (mode != SINGLE_PLAYER) rec.stopThread();
+        if (mode != SINGLE_PLAYER_TRAINING) rec.stopThread();
     }
 
     /**
@@ -629,6 +677,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
      */
     @Override
     public final void onSensorChanged(SensorEvent sensorEvent) {
+        if (nCovers == 0) return; // TODO remover/fix
         float[] rotationMatrix = new float[16];
         SensorManager.getRotationMatrixFromVector(
                 rotationMatrix, sensorEvent.values);
@@ -695,5 +744,4 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
         super.onPause();
         sensorManager.unregisterListener(this);
     }
-
 }

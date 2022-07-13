@@ -21,6 +21,8 @@
         tools:ignore="GoogleAppIndexingWarning">
         <receiver android:name=".Receiver" />
         <activity android:name=".SelectDifficultyTab" />
+        <activity android:name=".SelectSinglePlayerModeTab" />
+        <activity android:name=".CampaignSelectLevel" />
         <activity android:name=".MatchHistory" />
         <activity android:name=".TestPrefs" />
         <activity android:name=".SetSensor" />

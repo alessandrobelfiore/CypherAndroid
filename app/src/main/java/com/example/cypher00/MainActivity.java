@@ -1,31 +1,23 @@
 package com.example.cypher00;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.media.Image;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
-import static com.example.cypher00.KeysUtils.ANIM_KEY;
 import static com.example.cypher00.KeysUtils.MODE_KEY;
 import static com.example.cypher00.KeysUtils.MULTI_PLAYER_HOST;
-import static com.example.cypher00.KeysUtils.SINGLE_PLAYER;
-
-import java.util.Objects;
+import static com.example.cypher00.KeysUtils.SINGLE_PLAYER_TRAINING;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -51,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static final int SET_SENSOR_TAB = 1;
     static final int OPTION_TAB = 2;
     static final int MATCH_HISTORY_TAB = 3;
+    static final int SINGLE_PLAYER_MODES_TAB = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.singleplayer_image) {
             sensorSetting = pref.getBoolean(SENSOR_SET, false);
             if (sensorSetting)
-                switchActivity(SELECT_MODE_TAB, SINGLE_PLAYER);
-            else switchActivity(SET_SENSOR_TAB, SINGLE_PLAYER);
+                switchActivity(SINGLE_PLAYER_MODES_TAB, SINGLE_PLAYER_TRAINING);
+            else switchActivity(SET_SENSOR_TAB, SINGLE_PLAYER_TRAINING);
         }
         else if (v.getId() == R.id.multiplayer_image) {
             sensorSetting = pref.getBoolean(SENSOR_SET, false);
@@ -120,6 +113,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void switchActivity(int tab, int mode) {
         switch (tab) {
+            case SINGLE_PLAYER_MODES_TAB: {
+                Intent intent = new Intent(this, SelectSinglePlayerModeTab.class);
+                startActivity(intent);
+                break;
+            }
             case SELECT_MODE_TAB: {
                 Intent intent = new Intent(this, SelectDifficultyTab.class);
                 intent.putExtra(MODE_KEY, mode);
@@ -147,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     *  Creates the title with the correct pieces
+     *  Creates the interactive title with the correct pieces
      */
     private void createTitle()
     {

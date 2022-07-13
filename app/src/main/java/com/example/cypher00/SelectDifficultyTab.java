@@ -2,7 +2,6 @@ package com.example.cypher00;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,7 +19,7 @@ import static com.example.cypher00.KeysUtils.DIFFICULTY_KEY;
 import static com.example.cypher00.KeysUtils.DIFFICULTY_MEDIUM;
 import static com.example.cypher00.KeysUtils.MODE_KEY;
 import static com.example.cypher00.KeysUtils.MULTI_PLAYER_HOST;
-import static com.example.cypher00.KeysUtils.SINGLE_PLAYER;
+import static com.example.cypher00.KeysUtils.SINGLE_PLAYER_TRAINING;
 
 public class SelectDifficultyTab extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,7 +32,7 @@ public class SelectDifficultyTab extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_select_mode);
 
         Intent intent = getIntent();
-        currentMode = intent.getIntExtra(MODE_KEY, SINGLE_PLAYER);
+        currentMode = intent.getIntExtra(MODE_KEY, SINGLE_PLAYER_TRAINING);
 
         Button startBtn = findViewById(R.id.start_button);
         difficultyGroup = findViewById(R.id.difficultyGroup);
@@ -66,10 +65,10 @@ public class SelectDifficultyTab extends AppCompatActivity implements View.OnCli
         }
 
         if (v.getId() == R.id.start_button) {
-            if (currentMode == SINGLE_PLAYER) {
+            if (currentMode == SINGLE_PLAYER_TRAINING) {
 //                Log.d("TEST", "ENTRO IN SINGLE");
                 Intent intent = new Intent(this, GameActivity.class);
-                intent.putExtra(MODE_KEY, SINGLE_PLAYER);
+                intent.putExtra(MODE_KEY, SINGLE_PLAYER_TRAINING);
                 intent.putExtra(COVERS_KEY, covers);
                 intent.putExtra(DIFFICULTY_KEY, difficulty);
                 startActivity(intent);

@@ -4,6 +4,7 @@ class KeysUtils {
 
     // KEYS
     static final String MODE_KEY = "MODE_KEY";
+    static final String LEVEL_ID_KEY = "LEVEL_ID_KEY";
     static final String COVERS_KEY = "COVERS_KEY";
     static final String MESSAGE_CODE = "MESSAGE_CODE";
     static final String DIFFICULTY_KEY = "DIFFICULTY_KEY";
@@ -43,7 +44,8 @@ class KeysUtils {
     static final int COVERS_YES = 22;
 
     // GAME MODES
-    static final int SINGLE_PLAYER = 31;
-    static final int MULTI_PLAYER_CLIENT = 32;
-    static final int MULTI_PLAYER_HOST = 33;
+    static final int SINGLE_PLAYER_TRAINING = 31;
+    static final int SINGLE_PLAYER_CAMPAIGN = 32;
+    static final int MULTI_PLAYER_CLIENT = 33;
+    static final int MULTI_PLAYER_HOST = 34;
 }

@@ -22,6 +22,7 @@ public class PieceGrid {
         this.rows = rows;
         this.columns = columns;
         this.pieces = new ArrayList<>();
+        this.ncovers = 0;
     }
 
     /**
@@ -258,6 +259,7 @@ public class PieceGrid {
      * @param direction the direction to slide in
      */
     public void slideCovers(Piece.Direction direction) {
+        if (ncovers == 0) return;
         switch (direction) {
             case NORTH:
                 for (int i = 0; i < covers.length; i++) {
@@ -456,6 +458,23 @@ public class PieceGrid {
     }
 
     /**
+     * Converts from a PieceGrid to a bi-dimensional array of ints
+     * @param grid the PieceGrid to covert
+     * @return the int array generated
+     */
+    public static int[][] fromGridToBitArrays(PieceGrid grid) {
+        int rows = grid.getRows();
+        int columns = grid.getColumns();
+        int[][] bits = new int[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                bits[i][j] = grid.getB(i, j);
+            }
+        }
+        return bits;
+    }
+
+    /**
      * Converts from a ArrayList<ArrayList<Piece>> to an array of bytes
      * @param pieces the array of pieces to covert
      * @return the byte array generated
@@ -488,5 +507,7 @@ public class PieceGrid {
     public int getDim() {
         return this.dim;
     }
+    public int getRows() { return this.rows; }
+    public int getColumns() { return this.columns; }
 
 }
