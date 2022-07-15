@@ -2,6 +2,13 @@ package com.example.cypher00;
 
 public class Constants {
 
+    public static long[][] timings =
+            {
+                {18000, 14000, 10000},
+                {22000, 18000, 16000},
+                {26000, 22000, 20000},
+            };
+
     public static int[][] titleBitmask =
         {
             {0b0110,0b0001,0b0010,0b0110,0b0011,0b0010,0b0010,0b0110,0b0001,0b0110,0b0011},

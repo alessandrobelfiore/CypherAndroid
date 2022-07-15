@@ -276,10 +276,13 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
         } else if (v instanceof Cover) {
             ((Cover) v).block();
         } else if(v.getId() == R.id.play_again) {
-            if (mode == SINGLE_PLAYER_TRAINING || mode == SINGLE_PLAYER_CAMPAIGN) {
+            if (mode == SINGLE_PLAYER_TRAINING) {
                 GameFragment gf = new GameFragment();
                 gf.setArguments(getArguments());
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, gf).commit();
+            } else if (mode == SINGLE_PLAYER_CAMPAIGN) {
+                Intent intent = new Intent(getContext(), CampaignSelectLevel.class);
+                startActivity(intent);
             } else {
                 ConnectionFragment cf = new ConnectionFragment();
                 Bundle extras = getArguments();
@@ -646,8 +649,48 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
                 editor.putLong("highscore" + levelId, winnerMatchTime);
                 editor.apply();
             }
+            updateAccessibility(levelId, winnerMatchTime);
         }
         if (mode == MULTI_PLAYER_CLIENT || mode == MULTI_PLAYER_HOST) rec.stopThread();
+    }
+
+    /**
+     * Updates the accessibility of the next level based on the time of the level completed
+     * @param levelId the level just completed
+     * @param highscore the new highscore
+     */
+    private void updateAccessibility(int levelId, long highscore)
+    {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        // only symmetrical levels FIXME
+        Log.d("LEVELS", "entered method");
+        int dim = Constants.levels[levelId][0].length;
+        int nextLevel = levelId + 1;
+        if (prefs.getBoolean("isAccessible" + nextLevel, false)) return;
+        switch (dim)
+        {
+            case 4:
+                Log.d("LEVELS", "case 4");
+                Log.d("LEVELS", "highscore just realized " + highscore);
+                if (highscore <= Constants.timings[0][1])
+                {
+                    prefs.edit().putBoolean("isAccessible" + nextLevel, true).apply();
+                    Log.d("LEVELS", "true");
+                }
+                break;
+            case 5:
+                if (highscore <= Constants.timings[1][1])
+                {
+                    prefs.edit().putBoolean("isAccessible" + nextLevel, true).apply();
+                }
+                break;
+            case 6:
+                if (highscore <= Constants.timings[2][1])
+                {
+                    prefs.edit().putBoolean("isAccessible" + nextLevel, true).apply();
+                }
+                break;
+        }
     }
 
     /**
