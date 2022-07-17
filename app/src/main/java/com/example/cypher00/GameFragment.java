@@ -84,7 +84,9 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
     private Chronometer timer;
     private Button backToMenu;
     private Button playAgain;
+    private Button chooseLevel;
     private TextView victoryAlert;
+
 
     // Objects
     private SensorManager sensorManager;
@@ -143,7 +145,10 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
         layout = view.findViewById(R.id.game_layout);
         backToMenu = view.findViewById(R.id.back_to_menu);
         playAgain = view.findViewById(R.id.play_again);
+        chooseLevel = view.findViewById(R.id.choose_level);
 
+        chooseLevel.setOnClickListener(this);
+        victoryAlert.setOnClickListener(this);
         playAgain.setOnClickListener(this);
         backToMenu.setOnClickListener(this);
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -273,16 +278,18 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
                 stopGame();
                 // pop escape buttons
             }
+        } else if (v.getId() == R.id.victory_alert) {
+            victoryAlert.setVisibility(View.GONE);
         } else if (v instanceof Cover) {
             ((Cover) v).block();
-        } else if(v.getId() == R.id.play_again) {
-            if (mode == SINGLE_PLAYER_TRAINING) {
+        } else if (v.getId() == R.id.choose_level) {
+            Intent intent = new Intent(getContext(), CampaignSelectLevel.class);
+            startActivity(intent);
+        } else if (v.getId() == R.id.play_again) {
+            if (mode == SINGLE_PLAYER_TRAINING || mode == SINGLE_PLAYER_CAMPAIGN) {
                 GameFragment gf = new GameFragment();
                 gf.setArguments(getArguments());
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, gf).commit();
-            } else if (mode == SINGLE_PLAYER_CAMPAIGN) {
-                Intent intent = new Intent(getContext(), CampaignSelectLevel.class);
-                startActivity(intent);
             } else {
                 ConnectionFragment cf = new ConnectionFragment();
                 Bundle extras = getArguments();
@@ -650,6 +657,7 @@ public class GameFragment extends Fragment implements View.OnClickListener, Sens
                 editor.apply();
             }
             updateAccessibility(levelId, winnerMatchTime);
+            chooseLevel.setVisibility(View.VISIBLE);
         }
         if (mode == MULTI_PLAYER_CLIENT || mode == MULTI_PLAYER_HOST) rec.stopThread();
     }

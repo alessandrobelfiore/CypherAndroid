@@ -10,11 +10,12 @@
     <string name="defeat">DEFEAT!</string>
     <string name="device_disconnected">Player disconnected</string>
     <string name="click_hold">Click and hold the device in a comfortable position</string>
-    <string name="menu">MENU</string>
+    <string name="menu">MAIN MENU</string>
     <string name="singleplayer">SINGLEPLAYER</string>
     <string name="options">OPTIONS</string>
     <string name="multiplayer">MULTIPLAYER</string>
     <string name="match_history">MATCH HISTORY</string>
+    <string name="choose_level">CHOOSE LEVEL</string>
     <string name="opponent">OPPONENT</string>
     <string name="difficulty">DIFFICULTY</string>
     <string name="time">TIME</string>
@@ -62,6 +63,7 @@
     <string name="rematch">REMATCH</string>
     <string name="graphics">Graphics</string>
     <string name="gameplay">Gameplay</string>
+    <string name="highscore">HIGHSCORE</string>
 
     <string-array name="animation_time_values">
         <item>0</item>

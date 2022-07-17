@@ -15,6 +15,7 @@
     <string name="options">OPZIONI</string>
     <string name="multiplayer">MULTIGIOCATORE</string>
     <string name="match_history">CRONOLOGIA PARTITE</string>
+    <string name="choose_level">SELEZIONA IL LIVELLO</string>
     <string name="opponent">AVVERSARIO</string>
     <string name="difficulty">DIFFICOLTÀ</string>
     <string name="time">TEMPO</string>
@@ -63,6 +64,7 @@
     <string name="rematch">RIVINCITA</string>
     <string name="graphics">Grafica</string>
     <string name="gameplay">Gameplay</string>
+    <string name="highscore">HIGHSCORE</string>
 
     <string-array name="animation_time_values">
         <item>0</item>
